@@ -1,0 +1,17 @@
+name: Cooking Toolchain
+on: push
+
+jobs:
+  build:
+    name: Building
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+    - name: Build
+      run: |
+        sudo apt-get update
+        sudo apt install bc bison build-essential ca-certificates ccache clang cmake curl file flex gcc g++ git lld libelf-dev libssl-dev make ninja-build patchelf python3 texinfo u-boot-tools zlib1g-dev
+        git checkout
+        bash ./build.toolchain.sh
