@@ -55,7 +55,7 @@ export binutils_ver="2.34"
 export clang_version=$(install/bin/clang --version | head -n1 | cut -d' ' -f4)
 git clone --depth=1 https://timangpopi1:$GitHub_TOKEN@github.com/timangpopi1/meme.git covid_repo
 pushd covid_repo
-rm -rf ./*
+rm -fr ./*
 cp -r ../install/* .
 git add .
 git commit -m "Covid-19 Clang Update to $build_date" --signoff
