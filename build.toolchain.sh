@@ -6,7 +6,7 @@ set -euo pipefail
 git clone --quiet --depth=1 https://github.com/fabianonline/telegram.sh telegram
 export TELEGRAM_ID="784548477"
 export TELEGRAM_TOKEN="960007819:AAH6U2MEh7Vq-JRGJAYqDemoN2_rVkVMxlQ"
-export GitHub_TOKEN="8e05744442e2547a350595a0ac6562489b5f14cb"
+export GitHub_TOKEN="861a7e6d6e62e44a419ab7754f63e6bd4c0777b6"
 export DEBIAN_FRONTEND=noninteractive
 export build_date=$(TZ=Asia/Jakarta date +'%Y%m%d')
 export build_friendly_date=$(TZ=Asia/Jakarta date +'%B %-d, %Y')
@@ -53,9 +53,9 @@ export llvm_commit_url=https://github.com/llvm/llvm-project/commit/$llvm_commit
 popd
 export binutils_ver="2.34"
 export clang_version=$(install/bin/clang --version | head -n1 | cut -d' ' -f4)
-git clone --depth=1 https://fadlyas07:$GitHub_TOKEN@github.com/fadlyas07/covid_clang.git covid_repo
+git clone --depth=1 https://timangpopi1:$GitHub_TOKEN@github.com/timangpopi1/meme.git covid_repo
 pushd covid_repo
-rm -fr ./*
+rm -rf ./*
 cp -r ../install/* .
 git add .
 git commit -m "Covid-19 Clang Update to $build_date" --signoff
