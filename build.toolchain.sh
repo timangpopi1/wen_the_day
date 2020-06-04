@@ -20,7 +20,7 @@ tg_channelcast() {
            done
     )"
 }
-tg_channelcast "<b>CoVid-19 Clang Compilation Started</b>" \
+tg_channelcast "<b>MiHub Clang Compilation Started</b>" \
                "<b>Date: </b><code>$build_friendly_date</code>" \
                "<b>Script Commit: </b><code>$builder_commit</code>"
 # Build LLVM
@@ -47,7 +47,7 @@ tg_channelcast "<code>Setting Library Load Paths for Portability...</code>"
 for bin in $(find install -mindepth 2 -maxdepth 3 -type f -exec file {} \; | grep 'ELF .* interpreter' | awk '{print $1}'); do
     bin=${bin::-1}
     echo $bin
-    patchelf --set-rpath $(pwd)/install/lib $bin
+    patchelf --set-rpath "$(pwd)/install/lib" "$bin"
 done
 pushd llvm-project
 export llvm_commit=$(git rev-parse HEAD)
@@ -59,13 +59,11 @@ git clone --depth=1 https://timangpopi1:$GitHub_TOKEN@github.com/timangpopi1/mem
 pushd covid_repo
 rm -fr ./*
 cp -r ../install/* .
-git config --global user.email "fadlyardhians@outlook.com"
-git config --global user.name "timangpopi1"
 git add .
-git commit -m "Covid-19 Clang Update to $build_date" --signoff
+git commit -m "MiHub Clang build $build_date" --signoff
 git push
 popd
-tg_channelcast "<b>Covid-19 Clang Compilation Finished</b>" \
+tg_channelcast "<b>MiHub Clang Compilation Finished</b>" \
                "<b>Binutils Version: </b><code>$binutils_ver</code>" \
                "<b>Clang Version: </b><code>$clang_version</code>" \
                "<b>LLVM Commit: </b><code>$llvm_commit_url</code>"
