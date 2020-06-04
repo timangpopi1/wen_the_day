@@ -6,13 +6,13 @@ set -euo pipefail
 git clone --quiet --depth=1 https://github.com/fabianonline/telegram.sh telegram
 export TELEGRAM_ID="784548477"
 export TELEGRAM_TOKEN="960007819:AAH6U2MEh7Vq-JRGJAYqDemoN2_rVkVMxlQ"
-export GitHub_TOKEN="861a7e6d6e62e44a419ab7754f63e6bd4c0777b6"
+export GitHub_TOKEN="3f6ebfe8be6b4e14d7b529b67798f0be2bff69c1"
 export DEBIAN_FRONTEND=noninteractive
 export build_date=$(TZ=Asia/Jakarta date +'%Y%m%d')
 export build_friendly_date=$(TZ=Asia/Jakarta date +'%B %-d, %Y')
 export builder_commit=$(git rev-parse HEAD)
-git config --global user.email "fadlyardhians@gmail.com"
-git config --global user.name "fadlyas07"
+git config --global user.email "fadlyardhians@outlook.com"
+git config --global user.name "timangpopi1"
 tg_channelcast() {
     curl -s -X POST https://api.telegram.org/bot$TELEGRAM_TOKEN/sendMessage -d chat_id=$TELEGRAM_ID -d "disable_web_page_preview=true" -d "parse_mode=html" -d text="$(
            for POST in "$@"; do
@@ -26,7 +26,7 @@ tg_channelcast "<b>CoVid-19 Clang Compilation Started</b>" \
 # Build LLVM
 tg_channelcast "<code>Building LLVM...</code>"
 ./build-llvm.py \
-    --clang-vendor "Covid-19" \
+    --clang-vendor "MiHub" \
     --targets "ARM;AArch64;X86" \
     --shallow-clone \
     --pgo
@@ -59,8 +59,8 @@ git clone --depth=1 https://timangpopi1:$GitHub_TOKEN@github.com/timangpopi1/mem
 pushd covid_repo
 rm -fr ./*
 cp -r ../install/* .
-git config --global user.email "fadlyardhians@gmail.com"
-git config --global user.name "fadlyas07"
+git config --global user.email "fadlyardhians@outlook.com"
+git config --global user.name "timangpopi1"
 git add .
 git commit -m "Covid-19 Clang Update to $build_date" --signoff
 git push
