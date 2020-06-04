@@ -11,6 +11,8 @@ export DEBIAN_FRONTEND=noninteractive
 export build_date=$(TZ=Asia/Jakarta date +'%Y%m%d')
 export build_friendly_date=$(TZ=Asia/Jakarta date +'%B %-d, %Y')
 export builder_commit=$(git rev-parse HEAD)
+git config --global user.email "fadlyardhians@gmail.com"
+git config --global user.name "fadlyas07"
 tg_channelcast() {
     curl -s -X POST https://api.telegram.org/bot$TELEGRAM_TOKEN/sendMessage -d chat_id=$TELEGRAM_ID -d "disable_web_page_preview=true" -d "parse_mode=html" -d text="$(
            for POST in "$@"; do
@@ -57,6 +59,8 @@ git clone --depth=1 https://timangpopi1:$GitHub_TOKEN@github.com/timangpopi1/mem
 pushd covid_repo
 rm -fr ./*
 cp -r ../install/* .
+git config --global user.email "fadlyardhians@gmail.com"
+git config --global user.name "fadlyas07"
 git add .
 git commit -m "Covid-19 Clang Update to $build_date" --signoff
 git push
