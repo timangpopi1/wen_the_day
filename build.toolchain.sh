@@ -60,8 +60,9 @@ pushd covid_repo
 rm -fr ./*
 cp -r ../install/* .
 git add .
-git commit -m "MiHub Clang build $build_date" --signoff
-git push
+tar -zcvf MiHub-clang-$build_date.tar.gz *
+tg_channelcast "Uploading into telegram..."
+curl -F document=@$(echo *tar.gz) "https://api.telegram.org/bot$TELEGRAM_TOKEN/sendDocument" -F chat_id="$TELEGRAM_ID"
 popd
 tg_channelcast "<b>MiHub Clang Compilation Finished</b>" \
                "<b>Binutils Version: </b><code>$binutils_ver</code>" \

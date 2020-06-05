@@ -12,6 +12,6 @@ jobs:
     - name: Build
       run: |
         sudo apt-get update
-        sudo apt install bison ca-certificates ccache clang cmake curl file flex gcc g++ git make ninja-build python3 texinfo zlib1g-dev libssl-dev libelf-dev patchelf
+        sudo apt install bison ca-certificates ccache clang cmake curl file flex gcc g++ git make ninja-build python3 texinfo zlib1g-dev libssl-dev libelf-dev patchelf tar
         git checkout
         bash ./build.toolchain.sh
