@@ -6,11 +6,18 @@ set -euo pipefail
 git clone --quiet --depth=1 https://github.com/fabianonline/telegram.sh telegram
 export TELEGRAM_ID="784548477"
 export TELEGRAM_TOKEN="960007819:AAH6U2MEh7Vq-JRGJAYqDemoN2_rVkVMxlQ"
-export GitHub_TOKEN="3f6ebfe8be6b4e14d7b529b67798f0be2bff69c1"
+export GITHUB_TOKEN="7f02451031475292642ccdad298c5a687b4ec53b"
 export DEBIAN_FRONTEND=noninteractive
+export product_name=GreenForce
 export build_date=$(TZ=Asia/Jakarta date +'%Y%m%d')
 export build_friendly_date=$(TZ=Asia/Jakarta date +'%B %-d, %Y')
 export builder_commit=$(git rev-parse HEAD)
+export USE_CCACHE=1 && ccache -M 50G
+export CCACHE_COMPRESS=1
+export WITHOUT_CHECK_API=true
+export CCACHE_EXEC=/usr/bin/ccache
+export OWNER=timangpopi1
+export REPOSITORY=meme
 git config --global user.email "fadlyardhians@outlook.com"
 git config --global user.name "timangpopi1"
 tg_channelcast() {
@@ -20,13 +27,13 @@ tg_channelcast() {
            done
     )"
 }
-tg_channelcast "<b>MiHub Clang Compilation Started</b>" \
+tg_channelcast "<b>$product_name Clang Compilation Started</b>" \
                "<b>Date: </b><code>$build_friendly_date</code>" \
                "<b>Script Commit: </b><code>$builder_commit</code>"
 # Build LLVM
 tg_channelcast "<code>Building LLVM...</code>"
 ./build-llvm.py \
-    --clang-vendor "MiHub" \
+    --clang-vendor "GF🔥" \
     --targets "ARM;AArch64;X86" \
     --shallow-clone \
     --pgo
@@ -55,16 +62,22 @@ export llvm_commit_url=https://github.com/llvm/llvm-project/commit/$llvm_commit
 popd
 export binutils_ver="2.34"
 export clang_version=$(install/bin/clang --version | head -n1 | cut -d' ' -f4)
-git clone --depth=1 https://timangpopi1:$GitHub_TOKEN@github.com/timangpopi1/meme.git covid_repo
-pushd covid_repo
+git clone -j48 https://github.com/timangpopi1/meme.git clang_repo
+pushd clang_repo
 rm -fr ./*
 cp -r ../install/* .
 git add .
-tar -zcvf MiHub-clang-$build_date.tar.gz *
-tg_channelcast "Uploading into telegram..."
-curl -F document=@$(echo *tar.gz) "https://api.telegram.org/bot$TELEGRAM_TOKEN/sendDocument" -F chat_id="$TELEGRAM_ID"
-popd
-tg_channelcast "<b>MiHub Clang Compilation Finished</b>" \
+tar -zcvf $product_name-$clang_version-$build_date.tar.gz *
+export version=$clang_version
+curl --data '{"tag_name": "v.$version",
+              "target_commitish": "master",
+              "name": "v.$version",
+              "body": "Release of version $version",
+              "draft": false,
+              "prerelease": false}' \
+https://api.github.com/repos/$OWNER/$REPOSITORY/releases?access_token=$GITHUB_TOKEN
+tg_channelcast "<b>$product_name Clang Compilation Finished</b>" \
                "<b>Binutils Version: </b><code>$binutils_ver</code>" \
                "<b>Clang Version: </b><code>$clang_version</code>" \
                "<b>LLVM Commit: </b><code>$llvm_commit_url</code>"
+popd
