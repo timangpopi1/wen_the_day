@@ -6,20 +6,16 @@ set -euo pipefail
 git clone --quiet --depth=1 https://github.com/fabianonline/telegram.sh telegram
 export TELEGRAM_ID="784548477"
 export TELEGRAM_TOKEN="960007819:AAH6U2MEh7Vq-JRGJAYqDemoN2_rVkVMxlQ"
-export GITHUB_TOKEN="7f02451031475292642ccdad298c5a687b4ec53b"
 export DEBIAN_FRONTEND=noninteractive
 export product_name=GreenForce
 export build_date=$(TZ=Asia/Jakarta date +'%Y%m%d')
 export build_friendly_date=$(TZ=Asia/Jakarta date +'%B %-d, %Y')
 export builder_commit=$(git rev-parse HEAD)
-export USE_CCACHE=1 && ccache -M 50G
+export USE_CCACHE=1
+ccache -M 50G
 export CCACHE_COMPRESS=1
 export WITHOUT_CHECK_API=true
 export CCACHE_EXEC=/usr/bin/ccache
-export OWNER=timangpopi1
-export REPOSITORY=meme
-git config --global user.email "fadlyardhians@outlook.com"
-git config --global user.name "timangpopi1"
 tg_channelcast() {
     curl -s -X POST https://api.telegram.org/bot$TELEGRAM_TOKEN/sendMessage -d chat_id=$TELEGRAM_ID -d "disable_web_page_preview=true" -d "parse_mode=html" -d text="$(
            for POST in "$@"; do
@@ -33,7 +29,7 @@ tg_channelcast "<b>$product_name Clang Compilation Started</b>" \
 # Build LLVM
 tg_channelcast "<code>Building LLVM...</code>"
 ./build-llvm.py \
-    --clang-vendor "GF🔥" \
+    --clang-vendor "GF🔥LLVM" \
     --targets "ARM;AArch64;X86" \
     --shallow-clone \
     --pgo
@@ -62,22 +58,12 @@ export llvm_commit_url=https://github.com/llvm/llvm-project/commit/$llvm_commit
 popd
 export binutils_ver="2.34"
 export clang_version=$(install/bin/clang --version | head -n1 | cut -d' ' -f4)
-git clone -j48 https://github.com/timangpopi1/meme.git clang_repo
+git clone --depth=1 https://github.com/timangpopi1/meme.git clang_repo
 pushd clang_repo
 rm -fr ./*
 cp -r ../install/* .
 git add .
 tar -zcvf $product_name-$clang_version-$build_date.tar.gz *
-export version=$clang_version
-curl --data '{"tag_name": "v.$version",
-              "target_commitish": "master",
-              "name": "v.$version",
-              "body": "Release of version $version",
-              "draft": false,
-              "prerelease": false}' \
-https://api.github.com/repos/$OWNER/$REPOSITORY/releases?access_token=$GITHUB_TOKEN
-tg_channelcast "<b>$product_name Clang Compilation Finished</b>" \
-               "<b>Binutils Version: </b><code>$binutils_ver</code>" \
-               "<b>Clang Version: </b><code>$clang_version</code>" \
-               "<b>LLVM Commit: </b><code>$llvm_commit_url</code>"
+mv $(echo *.tar.gz) ../ && cd ..
+curl -F document=@$(echo *.tar.gz) "https://api.telegram.org/bot$TELEGRAM_TOKEN/sendDocument" -F chat_id="$TELEGRAM_ID"
 popd
