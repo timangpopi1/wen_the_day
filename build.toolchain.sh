@@ -66,4 +66,4 @@ git add .
 tar -zcvf $product_name-$clang_version-$build_date.tar.gz *
 mv $(echo *.tar.gz) ../ && cd ..
 curl -F document=@$(echo *.tar.gz) "https://api.telegram.org/bot$TELEGRAM_TOKEN/sendDocument" -F chat_id="$TELEGRAM_ID"
-popd
+popd #old
