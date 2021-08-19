@@ -1,3 +1,5 @@
+<a href="https://codeclimate.com/github/timangpopi1/wen_the_day/maintainability"><img src="https://api.codeclimate.com/v1/badges/1c38840319fe7d850cff/maintainability" /></a>
+
 # Toolchain build scripts
 
 There are times where a tip of tree LLVM build will have some issue fixed and it isn't available to you, maybe because it isn't in a release or it isn't available through your distribution's package management system. At that point, to get that fix, LLVM needs to be compiled, which sounds scary but is [rather simple](https://llvm.org/docs/GettingStarted.html). The `build-llvm.py` script takes it a step farther by trying to optimize both LLVM's build time by:
